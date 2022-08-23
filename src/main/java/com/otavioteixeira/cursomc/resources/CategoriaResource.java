@@ -1,7 +1,11 @@
 package com.otavioteixeira.cursomc.resources;
 
 import com.otavioteixeira.cursomc.domain.Categoria;
+import com.otavioteixeira.cursomc.services.CategoriaService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,17 +16,15 @@ import java.util.List;
 @RequestMapping("/categorias")
 public class CategoriaResource {
 
-    @GetMapping
-    public List<Categoria> listar(){
+    @Autowired
+    private CategoriaService categoriaService;
 
-        Categoria cat1 = new Categoria(1, "Informática");
-        Categoria cat2 = new Categoria(2, "Escritório");
+    @GetMapping("/{id}")
+    public ResponseEntity<?> find(@PathVariable Integer id){
 
-        List<Categoria> lista = new ArrayList<>();
-        lista.add(cat1);
-        lista.add(cat2);
+        Categoria categoria = categoriaService.buscar(id);
 
-        return lista;
+        return ResponseEntity.ok().body(categoria);
     }
 
 }
